@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import { TextField, Typography } from '@mui/material'
+import React, { useState } from 'react'
+import Showcard from './Showcard'
+import contacts from './contacts'
 
 function App() {
+  const [search, setSearch] = useState('')
+
+  const contactsSearched = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(search.toLowerCase())
+  )
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <form>
+        <TextField
+          label="Type Search..."
+          variant="standard"
+          value={search}
+          name="search"
+          onChange={e => setSearch(e.target.value)}
+        />
+      </form>
+      <Typography variant="h3">My Contacts</Typography>
+      {contactsSearched.map(eachContact => {
+        return (
+          <Showcard
+            key={eachContact.id}
+            name={eachContact.name}
+            img={eachContact.imgURL}
+            tel={eachContact.phone}
+            email={eachContact.email}
+          />
+        )
+      })}
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
